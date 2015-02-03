@@ -2,6 +2,8 @@
 
 "Don't do this." —[flavorjones](https://github.com/flavorjones) [[1]](http://www.nokogiri.org/tutorials/searching_a_xml_html_document.html)
 
+[![Gem Version](https://badge.fury.io/rb/rpath.svg)](http://badge.fury.io/rb/rpath)
+
 ## Overview
 
 RPath lets you traverse graphs, such as XML documents, with just Ruby.
