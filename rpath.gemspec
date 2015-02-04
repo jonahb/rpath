@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version               = RPath::VERSION
   spec.authors               = ['Jonah Burke']
   spec.email                 = ['jonah@jonahb.com']
-  spec.summary               = 'Graph traversal with just Ruby'
+  spec.summary               = 'Query XML with just Ruby'
   spec.homepage              = 'http://github.com/jonahb/rpath'
   spec.license               = 'MIT'
   spec.required_ruby_version = '>= 1.9.3'
