@@ -24,7 +24,7 @@ module RPath
       when RPath::Adapter
         adapter
       when Symbol
-        Registry.find adapter.to_sym
+        Registry.find adapter
       when nil
         Registry.infer graph
       else
