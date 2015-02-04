@@ -7,7 +7,7 @@
 
 ## Overview
 
-RPath lets you traverse graphs, such as XML documents, with just Ruby.
+RPath lets you query graphs, such as XML documents, with just Ruby.
 
 RPath can operate on [Nokogiri](http://www.nokogiri.org) documents, [REXML](http://www.germane-software.com/software/rexml/) documents, and the filesystem. Building adapters for other graphs is simple.
 
@@ -53,13 +53,13 @@ exp = RPath { places.place[:name] }
 exp.eval(xml) # => "Green-Wood"
 ```
 
-Or, if we only plan to use the expression once, we can combine the two lines above, passing the graph to `RPath`. RPath evaluates the expression and returns the result:
+If we only plan to use the expression once, we can pass the graph to `RPath`. RPath evaluates the expression and returns the result:
 
 ```ruby
 RPath(xml) { places.place[:name] } # => "Green-Wood"
 ```
 
-For even more succinct syntax, RPath adds to Nokogiri the `#rpath` method:
+Some adapters, such as the built-in Nokogiri adapter, may add convenience methods that make the syntax even prettier:
 
 ```ruby
 xml.rpath { places.place[:name] } # => "Green-Wood"
@@ -75,11 +75,11 @@ In an RPath [graph](http://en.wikipedia.org/wiki/Graph_(mathematics)),
 * Each vertex has zero or more named attributes, and
 * Each vertex may have associated data called "content."
 
-RPath expressions assume only this abstract model. They can be applied to any graph for which there is an adapter.
+Adapters implement this abstraction for a particular type of graph. RPath can operate on any graph for which there is an adapter.
 
 ## Expressions
 
-An RPath expression, given a graph, produces a value—a vertex, a vertex array, the value of an attribute, or a vertex's content. RPath expressions are constructed by chaining methods inside the block passed to `RPath`.
+An RPath expression, given a graph, selects a value—a vertex, a vertex array, the value of an attribute, or a vertex's content. RPath expressions are constructed by chaining methods inside the block passed to `RPath`.
 
 ### Selecting Vertices
 
@@ -228,36 +228,44 @@ RPath('/', :filesystem) { etc.hostname.content } # => "jbook"
 
 ## Custom Adapters
 
-Custom adapters are subclasses of `RPath::Adapter`. They implement three abstract methods: `#adjacent`, `#attribute`, and `#content`. See the implementations in `RPath::Adapters` for examples.
+Custom adapters allow RPath expressions to operate on new types of graphs. To create a custom adapter, subclass `RPath::Adapter` and implement the abstract methods `#adjacent`, `#attribute`, `#content`, and `#name`. See the implementations in `RPath::Adapters` for examples.
 
-Register a custom adapter by passing an instance to `RPath.use`:
+Once you've implemented a custom adapter, pass an instance to `#RPath`:
 
 ```ruby
-RPath.use MapsAdapter.new
+RPath(graph, CustomAdapter.new) { foo.bar }
 ```
 
-To use the adapter, pass the underscored, symbolized class name as the second argument to `RPath` or `RPath::Expression#eval`:
+To avoid creating an instance for every evaluation, register the adapter and pass the underscored, symbolized class to `RPath`:
 
 ```ruby
-RPath(map, :maps_adapter) { ... }
+RPath.use CustomAdapter.new
+RPath(graph, :custom_adapter) { foo.bar }
 ```
 
-You can eliminate the need to specify the adapter by implementing `RPath::Adapter#adapts?`:
+If that's too long, pass a custom ID to `RPath.use`:
 
 ```ruby
-class MapsAdapter < RPath::Adapter
+RPath.use CustomAdapter.new, :custom
+RPath(graph, :custom) { foo.bar }
+```
+
+Or, to avoid specifying the adapter altogether—as the built-in XML adapters do—implement `#adapts?` in your adapter class:
+
+```ruby
+class CustomAdapter < RPath::Adapter
   def adapts?(graph)
-    graph.is_a? Map
+    graph.is_a? CustomGraph
   end
-  ...
+  # ...
 end
 ```
 
-Now RPath will select `MapsAdapter` when an expression is evaluated on a `Map`:
+Now RPath will select a registered `CustomAdapter` when an expression is evaluated on a `CustomGraph`:
 
 ```ruby
-RPath.use MapsAdapter.new
-RPath(Map.new) { ... }
+RPath.use CustomAdapter.new
+RPath(CustomGraph.new) { foo.bar }
 ```
 
 ## Contributing
