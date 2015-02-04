@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license               = 'MIT'
   spec.required_ruby_version = '>= 1.9.3'
   spec.require_paths         = ['lib']
-  spec.files                 = Dir['LICENSE.txt', 'README.md', 'lib/**/*']
+  spec.files                 = Dir['LICENSE.txt', 'README.md', '.yardopts', 'lib/**/*']
 
   spec.add_development_dependency 'nokogiri', '~> 1.6.0'
   spec.add_development_dependency 'bundler', '~> 1.7'
