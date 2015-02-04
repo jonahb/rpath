@@ -14,7 +14,7 @@ module RPath
     # @return [Object]
     # @raise [RuntimeError]
     #   The adapter can't be determined
-    # @ raise [ArgumentError]
+    # @raise [ArgumentError]
     #   +adapter+ is not an {Adapter}, Symbol, or nil
     # @see #RPath
     # @see RPath.use
