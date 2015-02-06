@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'nokogiri', '~> 1.6.0'
   spec.add_development_dependency 'bundler', '~> 1.7'
+  spec.add_development_dependency 'oga', '~> 0.2.0'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'yard', '~> 0.8.7'
 end

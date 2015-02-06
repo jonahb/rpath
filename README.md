@@ -9,7 +9,7 @@
 
 RPath lets you query graphs, such as XML documents, with just Ruby.
 
-RPath can operate on [Nokogiri](http://www.nokogiri.org) documents, [REXML](http://www.germane-software.com/software/rexml/) documents, and the filesystem. Building adapters for other graphs is simple.
+RPath can operate on [Nokogiri](http://www.nokogiri.org) documents, [REXML](http://www.germane-software.com/software/rexml/) documents, [Oga](https://github.com/YorickPeterse/oga) documents, and the filesystem. Building adapters for other graphs is simple.
 
 Leading members of the Ruby community have [warned against](http://www.nokogiri.org/tutorials/searching_a_xml_html_document.html) RPath's approach. They're probably right! RPath is as much an experiment as a useful tool.
 
@@ -200,6 +200,16 @@ The REXML adapter is similar to the Nokogiri one. Expressions may be evaluated o
 ```ruby
 RPath.use :rexml
 xml = REXML::Document.new('<foo bar="baz"/>')
+xml.rpath { foo['bar'] } # => "baz"
+```
+
+### Oga
+
+RPath expressions may be evaluated on an `Oga::XML::Document` or an `Oga::XML::Element`.
+
+```ruby
+RPath.use :oga
+xml = Oga.parse_xml('<foo bar="baz"/>')
 xml.rpath { foo['bar'] } # => "baz"
 ```
 
