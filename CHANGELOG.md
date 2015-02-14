@@ -2,7 +2,7 @@
 
 rpath adheres to [SemVer 2.0.0](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 1.1.0 - 2015-02-14
 
 ### Added
 - Oga adapter
