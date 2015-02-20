@@ -31,12 +31,7 @@ module RPath
       # @param [String, Symbol] name
       # @return [String, nil]
       def attribute(vertex, name)
-        if vertex.is_a?(::Oga::XML::Element)
-          attr = vertex.attr(name)
-          attr && attr.value
-        else
-          nil
-        end
+        vertex.is_a?(::Oga::XML::Element) ? vertex.get(name) : nil
       end
 
       # Returns the text content of the given node.
